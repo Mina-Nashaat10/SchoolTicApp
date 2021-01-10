@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "565193181460",
+    "project_id": "school-tic-e688e",
+    "storage_bucket": "school-tic-e688e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565193181460:android:ff3bd6d3de22b2adfeda01",
+        "android_client_info": {
+          "package_name": "com.minanashaat.school_tec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "565193181460-bfqtriloddknu4d1jsl1hea0a125e3rq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ1BlMYf0E9gwCeLCSVK3Wf5TlvcDmFtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "565193181460-bfqtriloddknu4d1jsl1hea0a125e3rq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
