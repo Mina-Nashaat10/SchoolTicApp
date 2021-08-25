@@ -1,5 +1,5 @@
 import 'package:SchoolTic/models/course.dart';
-import 'package:carousel_pro/carousel_pro.dart';
+import 'package:SchoolTic/models/person.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +7,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/models/person.dart';
 
 class StudentHome extends StatefulWidget {
   @override
@@ -20,7 +19,10 @@ class StudentHome extends StatefulWidget {
 class _StudentHome extends State<StudentHome> {
   String name;
   String email;
-  List<Course> courses = List<Course>();
+  List<Course> courses = [];
+  double screenHeight;
+  double screenWidth;
+
   Future getData() async {
     FirebaseMessaging _fcm = FirebaseMessaging();
     _fcm.configure(onMessage: (message) async {
@@ -69,17 +71,12 @@ class _StudentHome extends State<StudentHome> {
     "assets/images/educ3.jpg",
     "assets/images/educ4.jpg"
   ];
-  Future<String> getImageProfile() async {
-    String m;
-    String email = FirebaseAuth.instance.currentUser.email;
-    await FirebaseStorage.instance
-        .ref()
-        .child("users/" + email + "/user.png")
-        .getDownloadURL()
-        .then((value) {
-      m = value;
-    });
-    return m;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    screenHeight = MediaQuery.of(context).size.height - 100;
+    screenWidth = MediaQuery.of(context).size.width;
   }
 
   @override
@@ -96,7 +93,6 @@ class _StudentHome extends State<StudentHome> {
               Widget widget;
               if (snapshot.hasData) {
                 widget = Scaffold(
-                    resizeToAvoidBottomPadding: false,
                     appBar: AppBar(
                       title: Text("Home"),
                     ),
@@ -115,20 +111,31 @@ class _StudentHome extends State<StudentHome> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                    width: 75,
-                                    height: 75,
-                                    child: CircleAvatar(
-                                      radius: 30.0,
-                                      backgroundImage: NetworkImage(
-                                          snapshot1.data.toString()),
-                                      backgroundColor: Colors.transparent,
-                                    )),
+                                  width: 75,
+                                  height: 75,
+                                  child: CircleAvatar(
+                                    radius: 30.0,
+                                    backgroundImage:
+                                        NetworkImage(snapshot1.data.toString()),
+                                    backgroundColor: Colors.transparent,
+                                  ),
+                                ),
                                 Text(
                                   name,
                                   style: TextStyle(
-                                      fontFamily: "Ranga", fontSize: 20),
+                                    fontFamily: "Ranga",
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                Text(email),
+                                Text(
+                                  email,
+                                  style: TextStyle(
+                                    fontFamily: "Ranga",
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -180,16 +187,29 @@ class _StudentHome extends State<StudentHome> {
                             onTap: () {
                               var alertdialog = AlertDialog(
                                   title: Text("Message"),
-                                  content: Text("do you want logout "),
+                                  content: Text(
+                                    "Do you want to logout ?",
+                                    style: TextStyle(fontSize: 15),
+                                  ),
                                   actions: [
                                     FlatButton(
-                                      child: Text("Cancel"),
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                     ),
                                     FlatButton(
-                                      child: Text("OK"),
+                                      child: Text(
+                                        "OK",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
                                       onPressed: () {
                                         var auth = FirebaseAuth.instance;
                                         auth.signOut();
@@ -216,15 +236,15 @@ class _StudentHome extends State<StudentHome> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CarouselSlider(
-                            height: MediaQuery.of(context).size.height - 100,
-                            initialPage: 0,
-                            enlargeCenterPage: true,
-                            autoPlay: true,
+                            options: CarouselOptions(
+                                height: screenHeight,
+                                autoPlay: true,
+                                initialPage: 0),
                             items: images.map((e) {
                               return Builder(
                                 builder: (context) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width,
+                                    width: screenWidth,
                                     margin: EdgeInsets.symmetric(horizontal: 8),
                                     decoration:
                                         BoxDecoration(color: Colors.blue),
@@ -242,7 +262,6 @@ class _StudentHome extends State<StudentHome> {
                     ));
               } else {
                 widget = Scaffold(
-                  resizeToAvoidBottomPadding: false,
                   appBar: AppBar(
                     title: Text("Home"),
                   ),
@@ -256,7 +275,6 @@ class _StudentHome extends State<StudentHome> {
           );
         } else {
           widget = Scaffold(
-            resizeToAvoidBottomPadding: false,
             appBar: AppBar(
               title: Text("Home"),
             ),
@@ -268,5 +286,18 @@ class _StudentHome extends State<StudentHome> {
         return widget;
       },
     );
+  }
+
+  Future<String> getImageProfile() async {
+    String m;
+    String email = FirebaseAuth.instance.currentUser.email;
+    await FirebaseStorage.instance
+        .ref()
+        .child("users/" + email + "/user.png")
+        .getDownloadURL()
+        .then((value) {
+      m = value;
+    });
+    return m;
   }
 }

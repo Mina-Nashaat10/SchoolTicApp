@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "School Tic Application",
+      title: "School Tic",
       debugShowCheckedModeBanner: false,
       routes: {
         '/login': (context) => Login(),

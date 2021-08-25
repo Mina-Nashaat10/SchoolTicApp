@@ -35,7 +35,6 @@ class _CoursesMaterialsState extends State<CoursesMaterials> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text("Courses Materials"),
       ),
@@ -43,46 +42,51 @@ class _CoursesMaterialsState extends State<CoursesMaterials> {
         future: getData(),
         builder: (context, snapshot) {
           Widget widget;
-          if (courses.length == 0) {
-            widget = Center(
-              child: Text(
-                "No Found Any Materials...",
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18,
+          if (snapshot.hasData) {
+            if (courses.length == 0) {
+              widget = Center(
+                child: Text(
+                  "No Found Any Materials...",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-            );
-          } else if (snapshot.hasData) {
-            widget = ListView.builder(
-              itemCount: courses.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                    leading: Icon(Icons.school),
-                    title: Text(snapshot.data[index].courseName + " Course"),
-                    subtitle: Text("Proffessor " + snapshot.data[index].professorName,
-                        style: TextStyle(color: Colors.orangeAccent)),
-                    trailing: RaisedButton(
-                      color: Colors.lightBlueAccent,
-                      child: Text(
-                        "Materials",
-                      ),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return ShowMaterial(snapshot.data[index].professorEmail,
-                                snapshot.data[index].courseName);
-                          },
-                        ));
-                      },
-                    ));
-              },
-            );
+              );
+            } else {
+              widget = ListView.builder(
+                itemCount: courses.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                      leading: Icon(Icons.school),
+                      title: Text(snapshot.data[index].courseName + " Course"),
+                      subtitle: Text(
+                          "Proffessor " + snapshot.data[index].professorName,
+                          style: TextStyle(color: Colors.orangeAccent)),
+                      trailing: RaisedButton(
+                        color: Colors.lightBlueAccent,
+                        child: Text(
+                          "Materials",
+                        ),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return ShowMaterial(
+                                  snapshot.data[index].professorEmail,
+                                  snapshot.data[index].courseName);
+                            },
+                          ));
+                        },
+                      ));
+                },
+              );
+            }
           } else {
             widget = Center(
               child: CircularProgressIndicator(),
             );
           }
+
           return widget;
         },
       ),

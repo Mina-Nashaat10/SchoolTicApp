@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:SchoolTic/models/course.dart';
 import 'package:SchoolTic/models/person.dart';
 import 'package:SchoolTic/models/proffessor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CourseDetail extends StatefulWidget {
@@ -98,8 +97,8 @@ class _CourseDetail extends State<CourseDetail> {
                   onPressed: () {
                     if (stuNo.text.isEmpty) {
                       snackBar("Please Enter Number OF Student");
-                    }
-                    checkDate();
+                    } else
+                      checkDate();
                   },
                 ),
               )
@@ -118,6 +117,7 @@ class _CourseDetail extends State<CourseDetail> {
             color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
         keyboardType: inputType,
         cursorColor: Colors.black,
+        autofocus: true,
         decoration: InputDecoration(
           hintText: hintMsg,
           labelText: label,
@@ -140,22 +140,38 @@ class _CourseDetail extends State<CourseDetail> {
   }
 
   void checkDate() async {
-    if (endSelectedDate.year < startSelectedDate.year) {
+    DateTime dateTime = DateTime.now();
+    if (startSelectedDate.year < dateTime.year) {
+      snackBar("Please Enter Legal Date...");
+      return;
+    } else if (startSelectedDate.year == dateTime.year &&
+        startSelectedDate.month < dateTime.month) {
+      snackBar("Please Enter Legal Date...");
+      return;
+    } else if (startSelectedDate.year == dateTime.year &&
+        startSelectedDate.month == dateTime.month &&
+        startSelectedDate.day < dateTime.day) {
       snackBar("Please Enter Legal Date...");
       return;
     } else {
-      if (endSelectedDate.year == startSelectedDate.year) {
-        if (endSelectedDate.month < startSelectedDate.month) {
-          snackBar("Please Enter Legal Date...");
-          return;
-        } else if (endSelectedDate.month == startSelectedDate.month) {
-          if (endSelectedDate.day <= startSelectedDate.day) {
+      if (endSelectedDate.year < startSelectedDate.year) {
+        snackBar("Please Enter Legal Date...");
+        return;
+      } else {
+        if (endSelectedDate.year == startSelectedDate.year) {
+          if (endSelectedDate.month < startSelectedDate.month) {
             snackBar("Please Enter Legal Date...");
             return;
+          } else if (endSelectedDate.month == startSelectedDate.month) {
+            if (endSelectedDate.day <= startSelectedDate.day) {
+              snackBar("Please Enter Legal Date...");
+              return;
+            }
           }
         }
       }
     }
+
     var auth = FirebaseAuth.instance.currentUser;
     String proname;
     await FirebaseFirestore.instance
@@ -184,10 +200,11 @@ class _CourseDetail extends State<CourseDetail> {
     course.endYear = endSelectedDate.year.toString();
     course.dept = courseCategory;
     course.maxStudents = int.parse(stuNo.text);
-    pro.addCourse(course).then((value) {
+    await pro.addCourse(course).then((value) {
       if (value == "Added Successfully") {
         snackBar("Course Added Successfully...");
-        Navigator.pushNamed(context, "/professor_home");
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/professor_home', (route) => false);
       } else {
         snackBar(value);
       }
@@ -195,10 +212,10 @@ class _CourseDetail extends State<CourseDetail> {
   }
 
   void snackBar(String msg) {
-    var snack = SnackBar(
+    var snackBar = SnackBar(
       content: Text(msg),
-      duration: Duration(seconds: 5),
+      duration: Duration(seconds: 2),
     );
-    scaffoldKey.currentState.showSnackBar(snack);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

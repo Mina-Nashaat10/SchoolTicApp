@@ -1,13 +1,11 @@
+import 'package:SchoolTic/models/course.dart';
+import 'package:SchoolTic/models/proffessor.dart';
 import 'package:SchoolTic/screens/proffesor/StudentCourse.dart';
+import 'package:SchoolTic/screens/proffesor/updatecourse.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fancy_dialog/FancyGif.dart';
-import 'package:fancy_dialog/fancy_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/models/course.dart';
-import 'package:SchoolTic/models/proffessor.dart';
-import 'package:SchoolTic/screens/proffesor/updatecourse.dart';
 
 // ignore: must_be_immutable
 class ShowCourseDetail extends StatefulWidget {
@@ -83,47 +81,70 @@ class _ShowCourseDetailState extends State<ShowCourseDetail> {
                     ),
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 75, right: 10),
-                        child: RaisedButton(
-                          color: Colors.pinkAccent,
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return UpdateCourse(c);
-                            }));
-                          },
-                          child: Text("Update"),
+                      RaisedButton(
+                        padding: EdgeInsets.only(
+                            top: 10, bottom: 10, right: 20, left: 20),
+                        color: Colors.pinkAccent,
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return UpdateCourse(c);
+                          }));
+                        },
+                        child: Text(
+                          "Update",
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 10),
-                        child: RaisedButton(
-                          color: Colors.pinkAccent,
-                          onPressed: () {
-                            var fancyDialog = FancyDialog(
-                              title: "Delete Course",
-                              descreption: "You Are Sure To Delete " +
-                                  snapshot.data.name.toString() +
-                                  " Course ?",
-                              gifPath: FancyGif.SUBMIT,
-                              okFun: () {
-                                var pro = Professor();
-                                pro.deleteCourse(snapshot.data.name.toString());
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                              },
-                              ok: "Delete",
-                              cancelFun: () {},
-                            );
-                            showDialog(
-                                context: context,
-                                builder: ((BuildContext context) {
-                                  return fancyDialog;
-                                }));
-                          },
-                          child: Text("Delete"),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      RaisedButton(
+                        padding: EdgeInsets.only(
+                            top: 10, bottom: 10, right: 20, left: 20),
+                        color: Colors.pinkAccent,
+                        onPressed: () {
+                          var alertDialog = AlertDialog(
+                            title: Text("Delete Course ?"),
+                            content: Text("You Are Sure To Delete " +
+                                snapshot.data.name.toString() +
+                                " Course ?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  var pro = Professor();
+                                  pro.deleteCourse(
+                                      snapshot.data.name.toString());
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.redAccent),
+                                ),
+                              ),
+                            ],
+                          );
+                          showDialog(
+                            context: context,
+                            builder: (context) => alertDialog,
+                          );
+                        },
+                        child: Text(
+                          "Delete",
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                     ],

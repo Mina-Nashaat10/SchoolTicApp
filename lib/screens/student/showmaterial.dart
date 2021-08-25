@@ -42,7 +42,6 @@ class _ShowMaterialState extends State<ShowMaterial> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text("Course Material"),
       ),
@@ -50,48 +49,51 @@ class _ShowMaterialState extends State<ShowMaterial> {
         future: getData(),
         builder: (context, snapshot) {
           Widget widget;
-          if (materials.length == 0) {
-            widget = Center(
-              child: Text(
-                "No Found Any Materials...",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            );
-          } else if (snapshot.hasData) {
-            widget = ListView.builder(
-              itemCount: materials.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Icon(Icons.school),
-                  title: Text(snapshot.data[index].courseName),
-                  subtitle: Text(
-                      snapshot.data[index].path.toString().split('/').last),
-                  trailing: IconButton(
-                    icon: Icon(Icons.folder_open),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PdfViewer.withdata(
-                                snapshot.data[index].path,
-                                snapshot.data[index].path
-                                    .toString()
-                                    .split('/')
-                                    .last),
-                          ));
-                    },
+          if (snapshot.hasData) {
+            if (materials.length == 0) {
+              widget = Center(
+                child: Text(
+                  "No Found Any Materials...",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
                   ),
-                );
-              },
-            );
+                ),
+              );
+            } else {
+              widget = ListView.builder(
+                itemCount: materials.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: Icon(Icons.school),
+                    title: Text(snapshot.data[index].courseName),
+                    subtitle: Text(
+                        snapshot.data[index].path.toString().split('/').last),
+                    trailing: IconButton(
+                      icon: Icon(Icons.folder_open),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PdfViewer.withData(
+                                  snapshot.data[index].path,
+                                  snapshot.data[index].path
+                                      .toString()
+                                      .split('/')
+                                      .last),
+                            ));
+                      },
+                    ),
+                  );
+                },
+              );
+            }
           } else {
             widget = Center(
               child: CircularProgressIndicator(),
             );
           }
+
           return widget;
         },
       ),

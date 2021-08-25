@@ -56,9 +56,11 @@ class _SplashScreen extends State<SplashScreen> {
         var person = Person();
         person = person.toObject(element.data());
         if (person.userType == "Student") {
-          Navigator.pushNamed(myContext, "/student_home");
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/student_home', (route) => false);
         } else {
-          Navigator.pushNamed(myContext, "/professor_home");
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/professor_home', (route) => false);
         }
       });
     });

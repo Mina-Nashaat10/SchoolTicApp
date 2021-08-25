@@ -1,10 +1,10 @@
 import 'package:SchoolTic/models/course.dart';
+import 'package:SchoolTic/models/studentcourse.dart';
 import 'package:SchoolTic/screens/student/coursedetail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/models/studentcourse.dart';
 
 class MyCoursesStudent extends StatefulWidget {
   @override
@@ -52,7 +52,6 @@ class _StudentCoursesState extends State<MyCoursesStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text("My Courses"),
       ),
@@ -60,9 +59,9 @@ class _StudentCoursesState extends State<MyCoursesStudent> {
         future: getData(),
         builder: (context, snapshot) {
           Widget widget;
-          if (courses.length == 0) {
-            widget = Scaffold(
-              body: Center(
+          if (snapshot.hasData) {
+            if (courses.length == 0) {
+              widget = Center(
                 child: Text(
                   "No Found Any Courses",
                   style: TextStyle(
@@ -70,42 +69,43 @@ class _StudentCoursesState extends State<MyCoursesStudent> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-              ),
-            );
-          } else if (snapshot.hasData) {
-            widget = ListView.builder(
-              itemCount: courses.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                    leading: Icon(Icons.school),
-                    title: Text(snapshot.data[index].courseName + " Course"),
-                    subtitle: Text(
-                        "Professor " + snapshot.data[index].professorName,
-                        style: TextStyle(color: Colors.orangeAccent)),
-                    trailing: RaisedButton(
-                      color: Colors.lightBlueAccent,
-                      child: Text(
-                        "Detail",
-                      ),
-                      onPressed: () {
-                        getCourse(snapshot.data[index].professorEmail,
-                                snapshot.data[index].courseName)
-                            .then((value) {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return CourseDetail(value, true);
-                            },
-                          ));
-                        });
-                      },
-                    ));
-              },
-            );
+              );
+            } else {
+              widget = ListView.builder(
+                itemCount: courses.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                      leading: Icon(Icons.school),
+                      title: Text(snapshot.data[index].courseName + " Course"),
+                      subtitle: Text(
+                          "Professor " + snapshot.data[index].professorName,
+                          style: TextStyle(color: Colors.orangeAccent)),
+                      trailing: RaisedButton(
+                        color: Colors.lightBlueAccent,
+                        child: Text(
+                          "Detail",
+                        ),
+                        onPressed: () {
+                          getCourse(snapshot.data[index].professorEmail,
+                                  snapshot.data[index].courseName)
+                              .then((value) {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return CourseDetail(value, true);
+                              },
+                            ));
+                          });
+                        },
+                      ));
+                },
+              );
+            }
           } else {
             widget = Center(
               child: CircularProgressIndicator(),
             );
           }
+
           return widget;
         },
       ),

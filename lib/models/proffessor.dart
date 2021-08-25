@@ -1,5 +1,4 @@
-import 'file:///F:/FCIH/AfterFaculty/FLUTTER/First%20App/1-school_tec/lib/screens/shared/iregistration.dart';
-import 'file:///F:/FCIH/AfterFaculty/FLUTTER/First%20App/1-school_tec/lib/screens/shared/registration.dart';
+import 'package:SchoolTic/screens/shared/iregistration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:SchoolTic/models/course.dart';

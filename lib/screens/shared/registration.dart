@@ -34,7 +34,6 @@ class _Registration extends State<Registration> {
     // TODO: implement build
     return Scaffold(
         key: _scaffoldKey,
-        resizeToAvoidBottomPadding: false,
         body: Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(

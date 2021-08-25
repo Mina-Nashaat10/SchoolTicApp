@@ -25,7 +25,6 @@ class _Login extends State<Login> {
 
     return Scaffold(
         key: scaffoldKey,
-        resizeToAvoidBottomPadding: false,
         body: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
@@ -35,7 +34,7 @@ class _Login extends State<Login> {
               margin: EdgeInsets.only(top: 150, left: 10, right: 10),
               child: Form(
                 key: formKey,
-                child: Column(
+                child: ListView(
                   children: [
                     Container(
                       margin: EdgeInsets.only(bottom: 35),
@@ -155,7 +154,11 @@ class _Login extends State<Login> {
                       ),
                     ),
                     isClicked == true
-                        ? CircularProgressIndicator()
+                        ? Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ))
                         : Container(),
                     Container(
                       margin: EdgeInsets.only(top: 30, left: 60),

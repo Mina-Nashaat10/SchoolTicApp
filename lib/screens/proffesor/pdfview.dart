@@ -6,7 +6,7 @@ import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
 class PdfViewer extends StatefulWidget {
   String path, filetype;
   PdfViewer();
-  PdfViewer.withdata(this.path, this.filetype);
+  PdfViewer.withData(this.path, this.filetype);
   @override
   _PdfViewerState createState() => _PdfViewerState(this.path, this.filetype);
 }

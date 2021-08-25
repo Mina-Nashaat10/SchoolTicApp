@@ -1,12 +1,13 @@
 import 'dart:io';
+
+import 'package:SchoolTic/models/material.dart';
+import 'package:SchoolTic/screens/proffesor/pdfview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/models/material.dart';
-import 'package:SchoolTic/screens/proffesor/pdfview.dart';
 
 // ignore: must_be_immutable
 class AddMaterial extends StatefulWidget {
@@ -82,17 +83,26 @@ class _AddMaterialState extends State<AddMaterial> {
         if (snapshot.hasData) {
           if (materials.length == 0) {
             widget = Scaffold(
-                key: scaffoldKey,
-                appBar: AppBar(
-                  title: Text("Add Materail"),
+              key: scaffoldKey,
+              appBar: AppBar(
+                title: Text("Add Materail"),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  getPdf();
+                },
+                child: Icon(Icons.add),
+              ),
+              body: Center(
+                child: Text(
+                  "No Any Material",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
                 ),
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () {
-                    getPdf();
-                  },
-                  child: Icon(Icons.add),
-                ),
-                body: Center(child: Text("No Any Material")));
+              ),
+            );
           } else {
             widget = Scaffold(
                 key: scaffoldKey,
@@ -114,7 +124,7 @@ class _AddMaterialState extends State<AddMaterial> {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return PdfViewer.withdata(snapshot.data[index].path,
+                          return PdfViewer.withData(snapshot.data[index].path,
                               fileName(snapshot.data[index].path));
                         }));
                       },
@@ -124,7 +134,7 @@ class _AddMaterialState extends State<AddMaterial> {
                           var alertDialog = AlertDialog(
                             title: Text("Message"),
                             content: Text(
-                                "do you want to delete this materail " +
+                                "do you want to delete this material " +
                                     snapshot.data[index].path
                                         .toString()
                                         .split("/")

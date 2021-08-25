@@ -1,7 +1,5 @@
 import 'package:SchoolTic/models/course.dart';
-import 'package:SchoolTic/screens/proffesor/coursedetailpro.dart';
 import 'package:SchoolTic/screens/proffesor/showcoursedetail.dart';
-import 'package:SchoolTic/screens/student/coursedetail.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,114 +17,30 @@ class ProfessorHome extends StatefulWidget {
 }
 
 class _ProfessorHome extends State<ProfessorHome> {
+  List<String> images;
   String name;
+  double screenHeight;
+  String email;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
-  }
-
-  Future<String> getData() async {
-    FirebaseMessaging _fcm = FirebaseMessaging();
-
-    _fcm.configure(onMessage: (Map<String, dynamic> message) async {
-      if (message['data']['page'] == 'registercourse') {
-        String email = FirebaseAuth.instance.currentUser.email;
-        Course course = new Course();
-        await FirebaseFirestore.instance
-            .collection("courses")
-            .where('name', isEqualTo: message['data']['name'])
-            .where('progmail', isEqualTo: email)
-            .get()
-            .then((value) {
-          value.docs.forEach((element) {
-            course = course.toObject(element.data());
-          });
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ShowCourseDetail.withData(
-                    message['data']['name'], course.dept),
-              ));
-        });
-      }
-    }, onResume: (message) async {
-      if (message['data']['page'] == 'registercourse') {
-        String email = FirebaseAuth.instance.currentUser.email;
-        Course course = new Course();
-        await FirebaseFirestore.instance
-            .collection("courses")
-            .where('name', isEqualTo: message['data']['name'])
-            .where('progmail', isEqualTo: email)
-            .get()
-            .then((value) {
-          value.docs.forEach((element) {
-            course = course.toObject(element.data());
-          });
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ShowCourseDetail.withData(
-                    message['data']['name'], course.dept),
-              ));
-        });
-      }
-    }, onLaunch: (message) async {
-      if (message['data']['page'] == 'registercourse') {
-        String email = FirebaseAuth.instance.currentUser.email;
-        Course course = new Course();
-        await FirebaseFirestore.instance
-            .collection("courses")
-            .where('name', isEqualTo: message['data']['name'])
-            .where('progmail', isEqualTo: email)
-            .get()
-            .then((value) {
-          value.docs.forEach((element) {
-            course = course.toObject(element.data());
-          });
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ShowCourseDetail.withData(
-                    message['data']['name'], course.dept),
-              ));
-        });
-      }
-    });
-    FirebaseAuth auth = FirebaseAuth.instance;
-    var result = auth.currentUser;
-    await FirebaseFirestore.instance
-        .collection("users")
-        .where("email", isEqualTo: result.email)
-        .get()
-        .then((value) {
-      Map<String, dynamic> map = value.docs.single.data();
-      name = map['name'];
-    });
-    return name;
-  }
-
-  List<String> images = [
-    "assets/images/educ5.jpg",
-    "assets/images/educ1.jpg",
-    "assets/images/educ2.jpg",
-    "assets/images/educ3.jpg",
-    "assets/images/educ4.jpg"
-  ];
-  String url;
-  String email;
-  Future<String> getImageProfile() async {
+    images = [
+      "assets/images/educ5.jpg",
+      "assets/images/educ1.jpg",
+      "assets/images/educ2.jpg",
+      "assets/images/educ3.jpg",
+      "assets/images/educ4.jpg"
+    ];
     email = FirebaseAuth.instance.currentUser.email;
-    await FirebaseStorage.instance
-        .ref()
-        .child("users/" + email + "/user.png")
-        .getDownloadURL()
-        .then((value) {
-      url = value;
-    });
-    return url;
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    screenHeight = MediaQuery.of(context).size.height - 100;
   }
 
   @override
@@ -170,13 +84,15 @@ class _ProfessorHome extends State<ProfessorHome> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                    width: 75,
-                                    height: 75,
-                                    child: CircleAvatar(
-                                      radius: 30.0,
-                                      backgroundImage: NetworkImage(url),
-                                      backgroundColor: Colors.transparent,
-                                    )),
+                                  width: 75,
+                                  height: 75,
+                                  child: CircleAvatar(
+                                    radius: 30.0,
+                                    backgroundImage:
+                                        NetworkImage(snapshot.data),
+                                    backgroundColor: Colors.transparent,
+                                  ),
+                                ),
                                 Text(
                                   name,
                                   style: TextStyle(
@@ -239,16 +155,26 @@ class _ProfessorHome extends State<ProfessorHome> {
                             onTap: () {
                               var alertdialog = AlertDialog(
                                   title: Text("Message"),
-                                  content: Text("do you want logout "),
+                                  content: Text("do you want to logout ?"),
                                   actions: [
                                     FlatButton(
-                                      child: Text("Cancel"),
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                     ),
                                     FlatButton(
-                                      child: Text("OK"),
+                                      child: Text(
+                                        "OK",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
                                       onPressed: () {
                                         var auth = FirebaseAuth.instance;
                                         auth.signOut();
@@ -275,10 +201,11 @@ class _ProfessorHome extends State<ProfessorHome> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CarouselSlider(
-                            height: MediaQuery.of(context).size.height - 100,
-                            initialPage: 0,
-                            enlargeCenterPage: true,
-                            autoPlay: true,
+                            options: CarouselOptions(
+                                enlargeCenterPage: true,
+                                autoPlay: true,
+                                initialPage: 0,
+                                height: screenHeight),
                             items: images.map((e) {
                               return Builder(
                                 builder: (context) {
@@ -316,5 +243,93 @@ class _ProfessorHome extends State<ProfessorHome> {
         return widget;
       },
     );
+  }
+
+  Future<String> getImageProfile() async {
+    String url;
+    await FirebaseStorage.instance
+        .ref()
+        .child("users/" + email + "/user.png")
+        .getDownloadURL()
+        .then((value) {
+      url = value;
+    });
+    return url;
+  }
+
+  Future<String> getData() async {
+    FirebaseMessaging _fcm = FirebaseMessaging();
+    _fcm.configure(onMessage: (Map<String, dynamic> message) async {
+      if (message['data']['page'] == 'registercourse') {
+        Course course = new Course();
+        await FirebaseFirestore.instance
+            .collection("courses")
+            .where('name', isEqualTo: message['data']['name'])
+            .where('progmail', isEqualTo: email)
+            .get()
+            .then((value) {
+          value.docs.forEach((element) {
+            course = course.toObject(element.data());
+          });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ShowCourseDetail.withData(
+                    message['data']['name'], course.dept),
+              ));
+        });
+      }
+    }, onResume: (message) async {
+      if (message['data']['page'] == 'registercourse') {
+        Course course = new Course();
+        await FirebaseFirestore.instance
+            .collection("courses")
+            .where('name', isEqualTo: message['data']['name'])
+            .where('progmail', isEqualTo: email)
+            .get()
+            .then((value) {
+          value.docs.forEach((element) {
+            course = course.toObject(element.data());
+          });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ShowCourseDetail.withData(
+                    message['data']['name'], course.dept),
+              ));
+        });
+      }
+    }, onLaunch: (message) async {
+      if (message['data']['page'] == 'registercourse') {
+        Course course = new Course();
+        await FirebaseFirestore.instance
+            .collection("courses")
+            .where('name', isEqualTo: message['data']['name'])
+            .where('progmail', isEqualTo: email)
+            .get()
+            .then((value) {
+          value.docs.forEach((element) {
+            course = course.toObject(element.data());
+          });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ShowCourseDetail.withData(
+                    message['data']['name'], course.dept),
+              ));
+        });
+      }
+    });
+    FirebaseAuth auth = FirebaseAuth.instance;
+    var result = auth.currentUser;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .where("email", isEqualTo: result.email)
+        .get()
+        .then((value) {
+      Map<String, dynamic> map = value.docs.single.data();
+      name = map['name'];
+    });
+    return name;
   }
 }
