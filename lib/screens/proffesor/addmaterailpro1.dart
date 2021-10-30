@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/models/course.dart';
+import 'package:school_tic/models/course.dart';
 
 import 'addmaterail2.dart';
 

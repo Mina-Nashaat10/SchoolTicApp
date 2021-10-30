@@ -1,5 +1,3 @@
-import 'package:SchoolTic/models/course.dart';
-import 'package:SchoolTic/screens/proffesor/showcoursedetail.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +5,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:school_tic/models/course.dart';
+import 'package:school_tic/screens/proffesor/showcoursedetail.dart';
 
 class ProfessorHome extends StatefulWidget {
   @override

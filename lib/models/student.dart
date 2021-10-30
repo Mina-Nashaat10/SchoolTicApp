@@ -1,9 +1,9 @@
-import 'package:SchoolTic/models/studentcourse.dart';
-import 'package:SchoolTic/screens/shared/iregistration.dart';
+import 'package:school_tic/models/studentcourse.dart';
+import 'package:school_tic/screens/shared/iregistration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:SchoolTic/models/person.dart';
-import 'package:SchoolTic/models/course.dart';
+import 'package:school_tic/models/person.dart';
+import 'package:school_tic/models/course.dart';
 
 class Student extends Person implements IRegistration {
   @override

@@ -1,4 +1,4 @@
-import 'package:SchoolTic/models/person.dart';
+import 'package:school_tic/models/person.dart';
 
 class IRegistration {
   // ignore: missing_return

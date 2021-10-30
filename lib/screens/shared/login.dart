@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/models/student.dart';
+import 'package:school_tic/models/student.dart';
 
 class Login extends StatefulWidget {
   @override

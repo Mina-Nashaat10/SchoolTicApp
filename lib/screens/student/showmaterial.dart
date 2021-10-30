@@ -1,5 +1,5 @@
-import 'package:SchoolTic/models/material.dart';
-import 'package:SchoolTic/screens/proffesor/pdfview.dart';
+import 'package:school_tic/models/material.dart';
+import 'package:school_tic/screens/proffesor/pdfview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

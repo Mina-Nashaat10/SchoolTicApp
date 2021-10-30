@@ -1,10 +1,9 @@
-import 'package:SchoolTic/models/person.dart';
-import 'package:SchoolTic/models/student.dart';
-import 'package:SchoolTic/models/studentcourse.dart';
+import 'package:school_tic/models/person.dart';
+import 'package:school_tic/models/student.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/models/course.dart';
+import 'package:school_tic/models/course.dart';
 
 // ignore: must_be_immutable
 class CourseDetail extends StatefulWidget {

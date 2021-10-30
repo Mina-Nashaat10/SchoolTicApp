@@ -1,19 +1,20 @@
-import 'package:SchoolTic/screens/proffesor/showcoursedetail.dart';
-import 'package:SchoolTic/screens/shared/login.dart';
-import 'package:SchoolTic/screens/student/coursematerial.dart';
-import 'package:SchoolTic/screens/student/registercourse.dart';
-import 'package:SchoolTic/screens/student/studentcourses.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/screens/proffesor/addmaterail2.dart';
-import 'package:SchoolTic/screens/proffesor/addmaterailpro1.dart';
-import 'package:SchoolTic/screens/proffesor/coursedetailpro.dart';
-import 'package:SchoolTic/screens/proffesor/mycoursespro.dart';
-import 'package:SchoolTic/screens/proffesor/proffessorhome.dart';
-import 'package:SchoolTic/screens/student/studenthome.dart';
-import 'screens/shared/registration.dart';
-import 'screens/shared/splashscreen.dart';
+
+import 'package:school_tic/screens/proffesor/addmaterail2.dart';
+import 'package:school_tic/screens/proffesor/addmaterailpro1.dart';
+import 'package:school_tic/screens/proffesor/coursedetailpro.dart';
+import 'package:school_tic/screens/proffesor/mycoursespro.dart';
+import 'package:school_tic/screens/proffesor/proffessorhome.dart';
+import 'package:school_tic/screens/proffesor/showcoursedetail.dart';
+import 'package:school_tic/screens/shared/login.dart';
+import 'package:school_tic/screens/student/coursematerial.dart';
+import 'package:school_tic/screens/student/registercourse.dart';
+import 'package:school_tic/screens/student/studentcourses.dart';
+import 'package:school_tic/screens/student/studenthome.dart';
 import 'screens/proffesor/selectcoursespro.dart';
 import 'screens/shared/imagecrop.dart';
+import 'screens/shared/registration.dart';
+import 'screens/shared/splashscreen.dart';
 
 void main() {
   runApp(MyApp());

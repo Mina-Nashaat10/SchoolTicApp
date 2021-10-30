@@ -1,5 +1,5 @@
-import 'package:SchoolTic/models/course.dart';
-import 'package:SchoolTic/models/person.dart';
+import 'package:school_tic/models/course.dart';
+import 'package:school_tic/models/person.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

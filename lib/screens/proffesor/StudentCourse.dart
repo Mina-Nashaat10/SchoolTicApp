@@ -1,4 +1,4 @@
-import 'package:SchoolTic/models/studentcourse.dart';
+import 'package:school_tic/models/studentcourse.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

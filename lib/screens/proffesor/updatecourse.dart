@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/models/course.dart';
-import 'package:SchoolTic/models/proffessor.dart';
+import 'package:school_tic/models/course.dart';
+import 'package:school_tic/models/proffessor.dart';
 
 // ignore: must_be_immutable
 class UpdateCourse extends StatefulWidget {

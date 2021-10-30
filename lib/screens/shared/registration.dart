@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/models/student.dart';
+import 'package:school_tic/models/student.dart';
 
 class Registration extends StatefulWidget {
   @override

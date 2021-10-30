@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SchoolTic/models/course.dart';
-import 'package:SchoolTic/screens/proffesor/showcoursedetail.dart';
+import 'package:school_tic/models/course.dart';
+import 'package:school_tic/screens/proffesor/showcoursedetail.dart';
 
 class MyCoursesPro extends StatefulWidget {
   @override
